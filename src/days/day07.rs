@@ -10,7 +10,8 @@ impl AoCDay for Day07 {
 	type Answer = usize;
 	fn day(&self) -> u8 { 07 }
 	fn parse(&self, input: &str) -> Self::Data {
-		input.trim().split(',')
+		input.split('\n')
+			.filter_map(aoch::parsing::trimmed)
 			.map(|n| n.parse::<u8>().unwrap())
 			.collect()
 	}
