@@ -6,19 +6,19 @@ use aoch::{AoCDay, DayPart, daystr, run_test, test_runner};
 pub struct Day23;
 
 impl AoCDay for Day23 {
-	type Data = Vec<u8>;
+	type Data<'i> = Vec<u8>;
 	type Answer = usize;
 	fn day(&self) -> u8 { 23 }
-	fn parse(&self, input: &str) -> Self::Data {
+	fn parse<'i>(&self, input: &'i str) -> Self::Data<'i> {
 		input.split('\n')
 			.filter_map(aoch::parsing::trimmed)
 			.map(|n| n.parse::<u8>().unwrap())
 			.collect()
 	}
-	fn part1(&self, _data: &mut Self::Data) -> Self::Answer {
+	fn part1(&self, _data: &mut Self::Data<'_>) -> Self::Answer {
 		todo!("Day {} Part 1", Self::day(&Self));
 	}
-	fn part2(&self, _data: &mut Self::Data) -> Self::Answer {
+	fn part2(&self, _data: &mut Self::Data<'_>) -> Self::Answer {
 		todo!("Day {} Part 2", Self::day(&Self));
 	}
 }

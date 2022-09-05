@@ -1,7 +1,10 @@
+#![feature(generic_associated_types)]
+
 use aoch::DayPart;
 use clap::Parser;
 
-aoch::load_days!();
+
+aoch::load_days!("../input");
 
 #[derive(Parser, Debug)]
 struct Args {
