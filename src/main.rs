@@ -1,8 +1,13 @@
 #![feature(generic_associated_types)]
+#![feature(generic_const_exprs)]
+#![feature(concat_bytes)]
+#![feature(array_windows)]
 
 use aoch::DayPart;
 use clap::Parser;
 
+mod intcode;
+mod rendering;
 
 aoch::load_days!("../input");
 
@@ -15,6 +20,14 @@ struct Args {
     /// Part of the day to run. If not supplied, both are ran.
     #[clap(short, long, value_parser(1..=2))]
     part: Option<i64>,
+
+    /// Repeats each test N times. This includes parsing input fresh for each test.
+    #[clap(short, long, value_parser(0..))]
+    repeat: Option<i64>,
+
+    /// Disable computed output. Can be used to more accurately measure runtime performance.
+    #[clap(short, long, action)]
+    quiet: bool,
 }
 
 fn main() {
@@ -27,12 +40,18 @@ fn main() {
         _ => panic!("clap allowed bad part value: {}", n),
     });
 
+    let repeat = args.repeat.unwrap_or(1);
+
     if let Some(day) = day {
         let (inp, fun) = RUNNERS[day-1];
-        fun(part, inp);
+        for _ in 0..repeat {
+            fun(part, args.quiet, inp);
+        }
     } else {
         for (inp, fun) in RUNNERS {
-            fun(part, inp);
+            for _ in 0..repeat {
+                fun(part, args.quiet, inp);
+            }
         }
     }
 }
